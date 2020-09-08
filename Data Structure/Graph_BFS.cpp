@@ -1,35 +1,53 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-template<typename T>
 class Graph{
-	map<T,list<T> > l;
+	
+	map<int, list<int> > m;
 	
 	public:
-		void addEdge(T x,T y)
+		void addEdge(int u,int v)
 		{
-			l[x].push_back(y);
-			l[y].push_back(x);
+			m[u].push_back(v);
+			m[v].push_back(u);
 		}
-		
-		void showBFS(T s)
+	
+		void showBFS(int src)
 		{
-			queue<T> q;
-			map<T vist, int> m;
-			
+			map<int, int> vist;
+			queue<int> q;
+		
+			q.push(src);
+			vist[src]++;
+		
 			while(!q.empty())
+			{
+				int node = q.front();
+				q.pop();
+			
+				for(auto i:m[node])
+				{
+					if(vist[i]==0)
+					{
+						q.push(i);
+						vist[i]++;
+					}
+				}
+				cout<<node<<" -> ";
+			}
 		}
 };
 
 int main()
 {
 	Graph g;
-	g.addEdge(1,2);
-	g.addEdge(3,2);
-	g.addEdge(1,0);
-	g.addEdge(3,4);
-	g.addEdge(5,4);
-	g.addEdge(3,0);
 	
-	g.showBFS(0);
+	g.addEdge(5,4);
+	g.addEdge(5,6);
+	g.addEdge(6,3);
+	g.addEdge(4,3);
+	g.addEdge(2,4);
+	g.addEdge(1,2);
+	
+	g.showBFS(5);
 }
